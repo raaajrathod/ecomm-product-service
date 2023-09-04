@@ -1,0 +1,57 @@
+version: "3.7"
+services:
+    app:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        image: raaajrathod/product_service/php:product_service
+        depends_on:
+            - db
+            - webserver
+        restart: unless-stopped
+        container_name: product_service
+        tty: true
+        environment:
+            SERVICE_NAME: app
+            SERVICE_TAGS: dev
+        working_dir: /var/www
+        volumes:
+            - ./app:/var/www
+            - ./php/local.ini:/usr/local/etc/php/conf.d/local.ini
+        networks:
+            - product-service-network
+
+    webserver:
+        image: nginx:alpine
+        restart: unless-stopped
+        container_name: product_service_webserver
+        tty: true
+        ports:
+            - "7081:80"
+        volumes:
+            - ./app:/var/www
+            - ./nginx/conf.d/:/etc/nginx/conf.d/
+        networks:
+            - product-service-network
+
+    db:
+        image: mariadb
+        container_name: product_service_db
+        restart: unless-stopped
+        tty: true
+        ports:
+            - "33380:3306"
+        environment:
+            MYSQL_DATABASE: product-service
+            MYSQL_ROOT_PASSWORD: password
+            MYSQL_USER: raj
+            MYSQL_PASSWORD: password
+        volumes:
+            - ./mysql/db:/var/lib/mysql
+            - ./mysql/my.cnf:/etc/mysql/my.cnf
+        networks:
+            - product-service-network
+
+networks:
+    product-service-network:
+        driver: bridge
