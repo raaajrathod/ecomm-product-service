@@ -22,6 +22,8 @@ class ProductSeeder extends Seeder
                 'description' => $faker->sentence,
                 'images' => json_encode([$faker->imageUrl(), $faker->imageUrl(), $faker->imageUrl()]),
                 'quantity' => $faker->numberBetween(1, 100),
+                'price' => $faker->numberBetween(1, 100),
+                'currency' => 'GBP',
                 'category_id' => $faker->numberBetween(1, 10), // Assuming 10 categories exist
                 'created_at' => now(),
                 'updated_at' => now(),

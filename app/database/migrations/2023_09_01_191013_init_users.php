@@ -18,7 +18,6 @@ return new class extends Migration {
         $output = new ConsoleOutput();
 
         try {
-            // Create a new user (if not already created)
             $services = new User([
                 'name' => 'Service User',
                 'email' => 'services@raaajrathod.com',
@@ -28,7 +27,7 @@ return new class extends Migration {
 
             $credentials = [
                 'email' => 'services@raaajrathod.com',
-                'password' => 'aJE?lebza?b7zZR!3mZUK?g!0YnCzl?D1QL1zmNX', // Note: Do not hash the password here
+                'password' => 'aJE?lebza?b7zZR!3mZUK?g!0YnCzl?D1QL1zmNX',
             ];
 
             if (!$token = auth('api')->attempt($credentials)) {
@@ -40,9 +39,6 @@ return new class extends Migration {
             // Handle any exceptions that occur during token generation
             $output->writeln(['<info>Error While creating token</info>']);
         }
-
-
-
     }
 
     /**

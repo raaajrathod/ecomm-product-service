@@ -17,6 +17,8 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->json('images')->nullable();
             $table->integer('quantity')->default(0);
+            $table->integer('price')->default(0);
+            $table->string('currency')->default("GBP");
             $table->unsignedBigInteger('category_id');
             $table->timestamps();
 
